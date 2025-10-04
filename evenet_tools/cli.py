@@ -1,7 +1,8 @@
 import argparse
+import os
 import subprocess
 import sys
-from .utils import download_model, prepare_config
+from .utils import download_model, prepare_config, download_demo_data
 
 def main():
     parser = argparse.ArgumentParser(
@@ -10,20 +11,37 @@ def main():
     parser.add_argument(
         "config", 
         nargs="?",
-        default="share/finetune-example.yaml",
+        default="finetune-example.yaml",
         help="Path to training config YAML file"
     )
     parser.add_argument(
-        "--ray_dir", 
+        "--ray_dir",
         default="~/ray_results",
         help="Ray results directory (default: ~/ray_results)"
     )
+    parser.add_argument(
+        "--demo",
+        action="store_true",
+        help="Download demo dataset and run with default config"
+    )
     args = parser.parse_args()
 
+    # Handle demo mode
+    if args.demo:
+        print("🚀 Demo mode: downloading dataset and launching with default config")
+
+        # Download demo dataset
+        print("⏳ Downloading demo dataset files...")
+        download_demo_data()
+        print("✅ Demo dataset ready")
+
+        # Use default config for demo
+        args.config = "finetune-example.yaml"
+
     # Step 1: Download model
-    print("⏳ Downloading pretrained model...")
+    print("⏳ Checking for pretrained model...")
     ckpt_path = download_model()
-    print(f"✅ Model downloaded to: {ckpt_path}")
+    print(f"✅ Model ready at: {ckpt_path}")
 
     # Step 2: Update config
     print("🔄 Preparing training configuration...")
