@@ -42,7 +42,7 @@ def prepare_config(user_config_path: str, model_checkpoint: str):
         )
     
     # Save updated config to temp file
-    temp_config = f"./{os.path.basename(user_config_path)}_updated.yaml"
+    temp_config = os.path.abspath(f"{os.path.dirname(user_config_path)}/{os.path.basename(user_config_path)}_updated.yaml")
     with open(temp_config, "w") as f:
         OmegaConf.save(conf, f)
     
@@ -55,7 +55,9 @@ def download_demo_data(cache_dir="cache/data"):
     repo_id = "Avencast/EveNet"
     files_to_download = [
         "data_Combined_Balanced_run_0.parquet",
-        "normalization.pt"
+        "data_Combined_Balanced_run_1.parquet",
+        "normalization.pt",
+        "shape_metadata.json"
     ]
 
     downloaded_files = []
@@ -76,8 +78,7 @@ def download_demo_data(cache_dir="cache/data"):
                 repo_id=repo_id,
                 filename=filename,
                 repo_type="dataset",
-                local_dir=cache_dir,
-                local_dir_use_symlinks=False
+                local_dir=cache_dir
             )
             print(f"✅ Downloaded: {downloaded_file}")
             downloaded_files.append(downloaded_file)

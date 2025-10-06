@@ -1,12 +1,12 @@
 platform:
-  data_parquet_dir: cache/data
-  number_of_workers: 1 # Adjust based on your system
+  data_parquet_dir: /root/code/EveNet-Tools/cache/data
+  number_of_workers: 2 # Adjust based on your system
   resources_per_worker: {
-    "CPU": 1,
+    "CPU": 8,
     "GPU": 1,
   } # Adjust based on your system
-  batch_size: 4 # training batch size per worker
-  prefetch_batches: 1 # Number of batches to prefetch
+  batch_size: 512 # training batch size per worker
+  prefetch_batches: 2 # Number of batches to prefetch
   # Enable GPU if available and desired
   use_gpu: true
 
@@ -17,7 +17,7 @@ logger:
     tags: ["EveNet"]
     simplified: false # If true, all metrics will be saved locally and only final metrics will be logged to wandb
   local:
-    save_dir: cache/log
+    save_dir: /root/code/EveNet-Tools/cache/log
     name: *logger_name
     version: "v1"
 
@@ -29,7 +29,7 @@ options:
   Training:
     total_epochs: 50 # total epochs for the whole training
     epochs: 10 # epochs for this run
-    model_checkpoint_save_path: cache/checkpoint
+    model_checkpoint_save_path: /root/code/EveNet-Tools/cache/checkpoint
     # Path to a checkpoint to resume training from, or null to start fresh
     model_checkpoint_load_path: null
     # If you want to load a pre-trained model for fine-tuning, specify the path
@@ -85,7 +85,7 @@ options:
 
   Dataset:
     dataset_limit: 1.0
-    normalization_file: cache/data/normalization.pt # Path to normalization file
+    normalization_file: /root/code/EveNet-Tools/cache/data/normalization.pt # Path to normalization file
     val_split: [0.95, 1.0]
 
 network:

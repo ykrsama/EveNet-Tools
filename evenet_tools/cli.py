@@ -11,7 +11,7 @@ def main():
     parser.add_argument(
         "config", 
         nargs="?",
-        default="finetune-example.yaml",
+        default="evenet_tools/share/finetune-example.yaml",
         help="Path to training config YAML file"
     )
     parser.add_argument(
@@ -36,7 +36,7 @@ def main():
         print("✅ Demo dataset ready")
 
         # Use default config for demo
-        args.config = "finetune-example.yaml"
+        args.config = "evenet_tools/share/finetune-example.yaml"
 
     # Step 1: Download model
     print("⏳ Checking for pretrained model...")
